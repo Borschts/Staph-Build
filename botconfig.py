@@ -4,8 +4,8 @@
 
 apiKey = '123456789:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
 db = 'init.db'
-superAdmin = (123456789,)
-notifyGroup = 123456789
+superAdmin = (726643789,)
+notifyGroup = -1001367853687
 
 if __name__ == '__main__':
     print('DO NOT EXECUTE ME!')
