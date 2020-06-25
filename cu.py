@@ -72,7 +72,7 @@ def processItem(item,db,api):
                         result = '用戶 '+tg.getNameRep(target)+' 於 '+datetime.datetime.fromtimestamp(result['time']).isoformat()+' 被標記為'+('可信','仿冒')[result['status'] == 'noir']+'用戶。備註：'+tg.tgapi.escape(result['comment'])
                     api.sendMessage(item['message']['chat']['id'],result,{'reply_to_message_id':item['message']['message_id']})
                 elif stripText == '/promote':
-                    if item['message']['from']['id'] in botconfig.superAdmin:
+                  if item['message']['from']['id'] in botconfig.superAdmin:
                             tmp = item['message']['text'].split(' ',1)
                             tmp = tmp[1].split('|') if len(tmp) == 2 else []
                             flags = []
