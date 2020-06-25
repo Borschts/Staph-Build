@@ -43,7 +43,7 @@ def cu(db,item):
         return None
 
 def processItem(item,db,api):
-    cmdList = ('/ot','/pin','/del','/ban','/checkuser','/promote','/unlistuser','/kick')
+    cmdList = ('/ping','/ot','/pin','/del','/ban','/checkuser','/promote','/unlistuser','/kick')
     if 'message' in item:
         if 'text' in item['message'] and len(item['message']['text']) > 1 and item['message']['text'][0] == '/':
             hasToReply = False
@@ -56,27 +56,7 @@ def processItem(item,db,api):
                 ## Start processing commands
                 if stripText == '/ping':
                     api.sendMessage(item['message']['chat']['id'],'Hell o\'world! It took me '+str(time.time()-item['message']['date'])[:9]+' seconds to receive your message.',{'reply_to_message_id':item['message']['message_id']})
-                elif stripText in ('/fakeuser','/genuineuser','/authenticuser'):
-                    if db['admin'].hasItem(str(item['message']['from']['id'])) or item['message']['from']['id'] in botconfig.superAdmin:
-                        tmp = item['message']['text'].split('\n',1)
-                        reason = tmp[1] if len(tmp) == 2 else None
-                        tmp = tmp[0].split(' ',2)
-                        if len(tmp) == 1 or (reason is None and len(tmp) == 2) or not tmp[1].isdigit():
-                            api.sendMessage(item['message']['chat']['id'],'Usage: <pre>'+stripText+' UID Reason</pre>',{'reply_to_message_id':item['message']['message_id']})
-                        else:
-                            if reason is None:
-                                reason = tmp[2]
-                            t = cu(db,tmp[1])
-                            if t is None:
-                                db[('blanc','noir')[stripText=='/fakeuser']].addItem((tmp[1],str(int(time.time())),reason))
-                                api.sendMessage(item['message']['chat']['id'],'UID 為 <pre>'+tmp[1]+'</pre> 的<a href="tg://user?id='+tmp[1]+'">用戶</a>已被成功加入'+('可信','仿冒')[stripText=='/fakeuser']+'用戶列表。',{'reply_to_message_id':item['message']['message_id']})
-                                if stripText == '/fakeuser' and 'notifyGroup' in botconfig.__dict__ and botconfig.notifyGroup:
-                                    api.sendMessage(botconfig.notifyGroup,'<a href="tg://user?id='+tmp[1]+'">仿冒用戶</a>\nUID: <pre>'+tmp[1]+'</pre>\n'+tg.tgapi.escape(reason))
-                            else:
-                                api.sendMessage(item['message']['chat']['id'],'注意：UID 為 <pre>'+tmp[1]+'</pre> 的<a href="tg://user?id='+tmp[1]+'">用戶</a>已被標記為'+{'super':'超級管理','admin':'管理','noir':'仿冒','blanc':'可信'}[t['status']]+'用戶。如需修改，請先撤銷標記。',{'reply_to_message_id':item['message']['message_id']})
-                    else:
-                        api.sendMessage(item['message']['chat']['id'],'抱歉，只有濫權管理員才可以將用戶標記為'+('可信','仿冒')[stripText == '/fakeuser']+'用戶。',{'reply_to_message_id':item['message']['message_id']})
-                elif stripText == '/checkuser':
+                                elif stripText == '/checkuser':
                     if len(item['message']['text'].split(' ', 1)) == 1 or not item['message']['text'].split(' ',1)[1].isdigit():
                         target = item['message']['reply_to_message']['forward_from'] if ('reply_to_message' in item['message'] and 'forward_from' in item['message']['reply_to_message']) else item['message']['reply_to_message']['from'] if 'reply_to_message' in item['message'] else item['message']['from']
                     else:
@@ -85,9 +65,9 @@ def processItem(item,db,api):
                     if result is None:
                         result = '我並沒有關於用戶 '+tg.getNameRep(target) +' 的記錄。'
                     elif result['status'] == 'super':
-                        result = '用戶 '+tg.getNameRep(target)+' 是尊貴的超級濫權管理員。'
+                        result = '用戶 '+tg.getNameRep(target)+' 是機器人操作員。'
                     elif result['status'] == 'admin':
-                        result = '用戶 '+tg.getNameRep(target)+' 於 '+datetime.datetime.fromtimestamp(result['time']).isoformat()+' 成為濫權管理員。'
+                        result = '用戶 '+tg.getNameRep(target)+' 於 '+datetime.datetime.fromtimestamp(result['time']).isoformat()+' 成為機器人管理員。'
                     else:
                         result = '用戶 '+tg.getNameRep(target)+' 於 '+datetime.datetime.fromtimestamp(result['time']).isoformat()+' 被標記為'+('可信','仿冒')[result['status'] == 'noir']+'用戶。備註：'+tg.tgapi.escape(result['comment'])
                     api.sendMessage(item['message']['chat']['id'],result,{'reply_to_message_id':item['message']['message_id']})
