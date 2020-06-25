@@ -95,6 +95,14 @@ def processItem(item,db,api):
                             api.sendMessage(item['message']['chat']['id'],'Usage: Reply to the user that would be promoted with <pre>/promote [flags]</pre>',{'reply_to_message_id':item['message']['message_id']})
                     else:
                         api.sendMessage(item['message']['chat']['id'],'抱歉，只有超級濫權管理員才可以設立其他濫權管理員。',{'reply_to_message_id':item['message']['message_id']})
+                if stripText == '/ot':
+                    if item['message']['from']['id'] in botconfig.superAdmin:
+                      api.sendMessage(message['message']['chat']['id'],'離題內容請適度。',{'reply_to_message_id':message['message']['reply_to_message']['message_id'] if 'reply_to_message' in message['message'] else message['message']['message_id']})
+                        if 'reply_to_message' in message['message']:
+                         try:
+                          api.query('deleteMessage',{'chat_id':message['message']['chat']['id'],'message_id':message['message']['message_id']})
+                           except APIError:
+                            pass
                 elif stripText == '/unlistuser':
                     if item['message']['from']['id'] in botconfig.superAdmin or db['admin'].hasItem(str(item['message']['from']['id'])):
                         tmp = item['message']['text'].split(' ',1)
