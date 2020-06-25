@@ -56,7 +56,7 @@ def processItem(item,db,api):
                 ## Start processing commands
                 if stripText == '/ping':
                     api.sendMessage(item['message']['chat']['id'],'Hell o\'world! It took me '+str(time.time()-item['message']['date'])[:9]+' seconds to receive your message.',{'reply_to_message_id':item['message']['message_id']})
-                    elif stripText == '/checkuser':
+            elif stripText == '/checkuser':
                     if len(item['message']['text'].split(' ', 1)) == 1 or not item['message']['text'].split(' ',1)[1].isdigit():
                         target = item['message']['reply_to_message']['forward_from'] if ('reply_to_message' in item['message'] and 'forward_from' in item['message']['reply_to_message']) else item['message']['reply_to_message']['from'] if 'reply_to_message' in item['message'] else item['message']['from']
                     else:
