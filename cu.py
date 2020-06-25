@@ -91,7 +91,7 @@ def processItem(item,db,api):
                                         api.sendMessage(botconfig.notifyGroup,'<a href="tg://user?id='+u+'">前仿冒用戶</a>\nUID: <pre>'+u+'</pre>\n已自動從仿冒用戶列表中移除。')
                             db['admin'].addItem((str(item['message']['reply_to_message']['from']['id']),str(int(time.time())),flags))
                             api.sendMessage(item['message']['chat']['id'],'用戶 '+tg.getNameRep(item['message']['reply_to_message']['from'])+' 已成功成為濫權管理員。',{'reply_to_message_id':item['message']['message_id']})
-                        else:
+                    else:
                             api.sendMessage(item['message']['chat']['id'],'Usage: Reply to the user that would be promoted with <pre>/promote [flags]</pre>',{'reply_to_message_id':item['message']['message_id']})
                     else:
                         api.sendMessage(item['message']['chat']['id'],'抱歉，只有超級濫權管理員才可以設立其他濫權管理員。',{'reply_to_message_id':item['message']['message_id']})
