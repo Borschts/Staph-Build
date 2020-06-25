@@ -2,7 +2,7 @@
 
 ## This file is used to configure the cu bot.
 
-apiKey = '123456789:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+apiKey = '1243871567:AAGaFhjRq8S076d4JiiA4Ekpov9q4mYqsT0'
 db = 'init.db'
 superAdmin = (726643789,)
 notifyGroup = -1001367853687
