@@ -43,7 +43,7 @@ def cu(db,item):
         return None
 
 def processItem(item,db,api):
-    cmdList = ('/ping','/fakeuser','/genuineuser','/authenticuser','/checkuser','/promote','/unlistuser')
+    cmdList = ('/ot','/pin','/del','/ban','/checkuser','/promote','/unlistuser','/kick')
     if 'message' in item:
         if 'text' in item['message'] and len(item['message']['text']) > 1 and item['message']['text'][0] == '/':
             hasToReply = False
